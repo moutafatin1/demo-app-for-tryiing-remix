@@ -19,7 +19,7 @@ const NotesIndex = () => {
   return (
     <>
       {notes && (
-        <ul>
+        <ul className="flex flex-wrap gap-8 justify-center">
           {notes.map((note) => (
             <li
               key={note.id}
@@ -28,7 +28,7 @@ const NotesIndex = () => {
               <span className="text-center text-lg font-bold">
                 {note.title}
               </span>
-              <span>{note.content}</span>
+              <p className="break-words">{note.content}</p>
             </li>
           ))}
         </ul>
