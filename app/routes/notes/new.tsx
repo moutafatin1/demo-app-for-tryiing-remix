@@ -1,33 +1,14 @@
 import type { ActionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
-
-type NoteAction = {
-  title: string;
-  content: string;
-};
+import type { CreateNewNote } from "~/models/note.server";
+import { createNewNote } from "~/models/note.server";
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
-  const noteData = Object.fromEntries(formData) as NoteAction;
-  const response = await fetch("http://localhost:3004/notes", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      title: noteData.title,
-      content: noteData.content,
-    }),
-  });
-
-  if (response.ok) {
-    return redirect("/notes");
-  }
-
-  return json({
-    error: "Sorry",
-  });
+  const noteData = Object.fromEntries(formData) as CreateNewNote;
+  await createNewNote(noteData);
+  return redirect("/notes");
 }
 
 const AddNewNotePage = () => {

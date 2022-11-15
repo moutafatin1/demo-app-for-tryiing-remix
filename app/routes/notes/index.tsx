@@ -1,14 +1,8 @@
 import { useLoaderData } from "@remix-run/react";
-
-type Note = {
-  id: number;
-  title: string;
-  content: string;
-};
+import { getNotes } from "~/models/note.server";
 
 export async function loader() {
-  const response = await fetch("http://localhost:3004/notes");
-  const notes = (await response.json()) as Note[];
+  const notes = await getNotes();
 
   return notes;
 }
